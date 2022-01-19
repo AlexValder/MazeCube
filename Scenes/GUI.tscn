@@ -1,0 +1,107 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scenes/SceneScripts/left_panel.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Fonts/normal_font.tres" type="DynamicFont" id=2]
+
+[sub_resource type="Theme" id=5]
+default_font = ExtResource( 2 )
+
+[sub_resource type="VisualShaderNodeColorConstant" id=4]
+output_port_for_preview = 0
+constant = Color( 0.188235, 0.188235, 0.188235, 0.839216 )
+
+[sub_resource type="VisualShader" id=2]
+code = "shader_type canvas_item;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Color:3
+	vec3 n_out3p0 = vec3(0.188235, 0.188235, 0.188235);
+	float n_out3p1 = 0.839216;
+
+// Output:0
+	COLOR.rgb = n_out3p0;
+	COLOR.a = n_out3p1;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( -238.8, 62.2 )
+mode = 1
+flags/light_only = false
+nodes/fragment/3/node = SubResource( 4 )
+nodes/fragment/3/position = Vector2( 100, 120 )
+nodes/fragment/connections = PoolIntArray( 3, 0, 0, 0, 3, 1, 0, 1 )
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
+
+[node name="GUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="left_panel" type="VBoxContainer" parent="."]
+anchor_left = 0.01
+anchor_top = 0.01
+anchor_right = 0.2
+anchor_bottom = 0.99
+alignment = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="panel" type="Panel" parent="left_panel"]
+material = SubResource( 3 )
+margin_right = 194.0
+margin_bottom = 556.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="vbox" type="VBoxContainer" parent="left_panel/panel"]
+anchor_left = 0.1
+anchor_top = 0.02
+anchor_right = 0.9
+anchor_bottom = 0.98
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="left_panel/panel/vbox"]
+margin_top = 205.0
+margin_right = 155.0
+margin_bottom = 327.0
+text = "Test GUI
+Hold LMB to rotate
+Press wheel to center"
+align = 1
+autowrap = true
+
+[node name="hbox" type="HBoxContainer" parent="left_panel"]
+margin_top = 560.0
+margin_right = 194.0
+margin_bottom = 588.0
+
+[node name="HideShowGui" type="Button" parent="left_panel/hbox"]
+margin_right = 52.0
+margin_bottom = 28.0
+text = "Hide"
+
+[connection signal="button_up" from="left_panel/hbox/HideShowGui" to="left_panel" method="_on_HideShowGui_button_up"]
