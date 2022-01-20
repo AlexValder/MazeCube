@@ -5,12 +5,14 @@ onready var _h := $h as Spatial
 onready var _camera := $h/v/Camera as Camera
 
 var mouse_sensitivity := 120.0
-const MOUSE_WHEEL_STEP := 0.25
-const MIN_DISTANCE := 3
-const MAX_DISTANCE := 20
+const MOUSE_WHEEL_STEP := 0.5
+const DEFAULT_DISTANCE := 8
+const MIN_DISTANCE := 5
+const MAX_DISTANCE := 30
 
 func _ready():
-    pass
+    _reset_rotation()
+    _reset_zoom()
 
 
 func _input(event: InputEvent) -> void:
@@ -24,6 +26,10 @@ func _input(event: InputEvent) -> void:
         if Input.is_mouse_button_pressed(BUTTON_MASK_LEFT):
             _rotate_horizontal(-event.relative.x / mouse_sensitivity)
             _rotate_vertical(-event.relative.y / mouse_sensitivity)
+
+
+func _reset_zoom() -> void:
+    _camera.transform.origin.z = DEFAULT_DISTANCE
 
 
 func _reset_rotation() -> void:
