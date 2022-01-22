@@ -108,6 +108,7 @@ script = ExtResource( 2 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4 )
 
 [node name="MeshInstance" type="MeshInstance" parent="cam_root/h/v/Camera"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.541e-08, 0, -1.09136 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
+generate_lightmap = false
 mesh = SubResource( 3 )
 material/0 = SubResource( 5 )

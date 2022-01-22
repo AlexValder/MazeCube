@@ -68,10 +68,18 @@ __meta__ = {
 }
 
 [node name="FullscreenCheckButton" type="CheckButton" parent="left_panel/panel/Settings"]
-margin_top = 236.0
-margin_right = 186.0
-margin_bottom = 276.0
+margin_top = 220.0
+margin_right = 199.0
+margin_bottom = 260.0
 text = "Fullscreen"
+
+[node name="ResolutionOptionButton" type="OptionButton" parent="left_panel/panel/Settings"]
+margin_top = 264.0
+margin_right = 199.0
+margin_bottom = 292.0
+text = "Native Resolution"
+items = [ "Native Resolution", null, false, 0, null, "1920x1080", null, false, 1, null, "1536x864", null, false, 2, null, "1440x900", null, false, 3, null, "1280x720", null, false, 4, null, "1024x768", null, false, 5, null ]
+selected = 0
 
 [node name="hbox" type="HBoxContainer" parent="left_panel"]
 margin_top = 560.0
@@ -111,5 +119,6 @@ __meta__ = {
 }
 
 [connection signal="toggled" from="left_panel/panel/Settings/FullscreenCheckButton" to="left_panel" method="_on_FullscreenCheckButton_toggled"]
+[connection signal="item_selected" from="left_panel/panel/Settings/ResolutionOptionButton" to="left_panel" method="_on_ResolutionOptionButton_item_selected"]
 [connection signal="button_up" from="left_panel/hbox/HideShowGui" to="left_panel" method="_on_HideShowGui_button_up"]
 [connection signal="button_up" from="left_panel/hbox/ExitButton" to="left_panel" method="_on_ExitButton_button_up"]
