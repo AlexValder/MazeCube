@@ -1,4 +1,5 @@
 extends Spatial
+class_name CenteredCamera
 
 onready var _v := $h/v as Spatial
 onready var _h := $h as Spatial

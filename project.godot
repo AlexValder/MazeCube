@@ -8,6 +8,40 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Spatial",
+"class": "CenteredCamera",
+"language": "GDScript",
+"path": "res://Scenes/SceneScripts/CamRoot.gd"
+}, {
+"base": "GridContainer",
+"class": "CylinderOptions",
+"language": "GDScript",
+"path": "res://Scenes/GuiParts/CylinderOptionsGrid.gd"
+}, {
+"base": "Label",
+"class": "FpsLabel",
+"language": "GDScript",
+"path": "res://Scenes/SceneScripts/FpsLabel.gd"
+}, {
+"base": "VBoxContainer",
+"class": "GenerationTab",
+"language": "GDScript",
+"path": "res://Scenes/GuiParts/GenerationTab.gd"
+}, {
+"base": "VBoxContainer",
+"class": "LeftPanel",
+"language": "GDScript",
+"path": "res://Scenes/SceneScripts/LeftPanel.gd"
+} ]
+_global_script_class_icons={
+"CenteredCamera": "",
+"CylinderOptions": "",
+"FpsLabel": "",
+"GenerationTab": "",
+"LeftPanel": ""
+}
+
 [application]
 
 config/name="MazeCube"

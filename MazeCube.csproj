@@ -1,0 +1,16 @@
+<Project Sdk="Godot.NET.Sdk/3.3.0">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Scenes\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Scenes\**" />
+    <EmbeddedResource Include="DefaultMeshProperties\Cylinder.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Serilog" Version="2.10.0" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,20 @@
+﻿{
+  "mesh_options": {
+    "top_radius": 1.0,
+    "bottom_radius": 1.0,
+    "height": 2.0,
+    "radial_segments": 32,
+    "rings": 4
+  },
+  "side_maze": {
+    "rows": 20,
+    "columns": 10,
+    "seed": ""
+  },
+  "top_maze": {
+    "radius": 10
+  },
+  "bottom_maze": {
+    "radius": 10
+  }
+}
