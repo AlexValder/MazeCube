@@ -121,27 +121,5 @@ namespace MazeCube.Scripts.MazeGen.Grid {
                 }
             }
         }
-
-        public byte[] CreateAShape() {
-            var sizeH = 500;
-            var sizeV = 500;
-            using (var image = new Bitmap(sizeH, sizeH)) {
-                using (var g = Graphics.FromImage(image)) {
-                    using (var pen = new Pen(Color.Red)) {
-                        g.FillRectangle(pen.Brush, 0, 0, sizeH, sizeV);
-                    }
-
-                    var h = sizeH / Width;
-                    var v = sizeV / Height;
-
-                }
-
-                using (var stream = new MemoryStream())
-                {
-                    image.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-                    return stream.ToArray();
-                }
-            }
-        }
     }
 }
