@@ -74,6 +74,8 @@ namespace MazeCube.Scripts.MazeGen.Mesh {
                     _material.AlbedoTexture = _texturePainter.CreateImageTexture(grid);
 
                     break;
+                default:
+                    throw new NotSupportedException($"Invalid name: {name}");
             }
         }
 
