@@ -1,0 +1,9 @@
+[gd_scene format=2]
+
+[node name="AlgoOptionsGrid" type="GridContainer"]
+margin_top = 4.0
+margin_right = 1024.0
+margin_bottom = 4.0
+__meta__ = {
+"_edit_use_anchors_": false
+}

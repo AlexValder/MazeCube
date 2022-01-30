@@ -1,4 +1,5 @@
 extends VBoxContainer
+class_name LeftPanel
 
 onready var _panel := $panel as Control
 onready var _hide_button := $hbox/HideShowGui as Button

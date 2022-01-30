@@ -1,21 +1,22 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Scenes/SceneScripts/left_panel.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/SceneScripts/LeftPanel.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Fonts/normal_font.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Scenes/SceneScripts/FpsLabel.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/GuiParts/GenerationTab.gd" type="Script" id=5]
 
-[sub_resource type="Theme" id=5]
+[sub_resource type="Theme" id=1]
 default_font = ExtResource( 2 )
 
 [node name="GUI" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = SubResource( 5 )
+theme = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="left_panel" type="VBoxContainer" parent="."]
+[node name="LeftPanel" type="VBoxContainer" parent="."]
 anchor_left = 0.01
 anchor_top = 0.01
 anchor_right = 0.2
@@ -26,14 +27,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="panel" type="TabContainer" parent="left_panel"]
+[node name="panel" type="TabContainer" parent="LeftPanel"]
 self_modulate = Color( 1, 1, 1, 0.8 )
 margin_right = 194.0
 margin_bottom = 556.0
 size_flags_vertical = 3
 tab_align = 0
 
-[node name="Generation" type="VBoxContainer" parent="left_panel/panel"]
+[node name="Generation" type="VBoxContainer" parent="LeftPanel/panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -42,18 +43,17 @@ margin_right = -4.0
 margin_bottom = -4.0
 size_flags_horizontal = 4
 custom_constants/separation = 10
-alignment = 1
+script = ExtResource( 5 )
 
-[node name="OptionButton" type="OptionButton" parent="left_panel/panel/Generation"]
-margin_top = 242.0
+[node name="OptionButton" type="OptionButton" parent="LeftPanel/panel/Generation"]
 margin_right = 186.0
-margin_bottom = 270.0
-text = "Cube"
+margin_bottom = 28.0
+text = "None"
 align = 1
-items = [ "Cube", null, false, 0, null, "Sphere", null, true, 1, null ]
+items = [ "None", null, false, 2, null, "Cylinder", null, false, 1, null, "Cube", null, true, 2, null ]
 selected = 0
 
-[node name="Settings" type="VBoxContainer" parent="left_panel/panel"]
+[node name="Settings" type="VBoxContainer" parent="LeftPanel/panel"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -67,36 +67,35 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FullscreenCheckButton" type="CheckButton" parent="left_panel/panel/Settings"]
+[node name="FullscreenCheckButton" type="CheckButton" parent="LeftPanel/panel/Settings"]
 margin_top = 220.0
-margin_right = 199.0
+margin_right = 228.0
 margin_bottom = 260.0
 text = "Fullscreen"
 
-[node name="ResolutionOptionButton" type="OptionButton" parent="left_panel/panel/Settings"]
+[node name="ResolutionOptionButton" type="OptionButton" parent="LeftPanel/panel/Settings"]
 margin_top = 264.0
-margin_right = 199.0
+margin_right = 228.0
 margin_bottom = 292.0
 text = "Native Resolution"
 items = [ "Native Resolution", null, false, 0, null, "1920x1080", null, false, 1, null, "1536x864", null, false, 2, null, "1440x900", null, false, 3, null, "1280x720", null, false, 4, null, "1024x768", null, false, 5, null ]
 selected = 0
 
-[node name="hbox" type="HBoxContainer" parent="left_panel"]
+[node name="hbox" type="HBoxContainer" parent="LeftPanel"]
 margin_top = 560.0
 margin_right = 194.0
 margin_bottom = 588.0
 custom_constants/separation = 10
 
-[node name="HideShowGui" type="Button" parent="left_panel/hbox"]
+[node name="HideShowGui" type="Button" parent="LeftPanel/hbox"]
 margin_right = 52.0
 margin_bottom = 28.0
 text = "Hide"
 
-[node name="ExitButton" type="Button" parent="left_panel/hbox"]
+[node name="ExitButton" type="Button" parent="LeftPanel/hbox"]
 margin_left = 62.0
 margin_right = 114.0
 margin_bottom = 28.0
-custom_colors/font_color_focus = Color( 1, 0.811765, 0.164706, 1 )
 custom_colors/font_color = Color( 0.956863, 0, 0, 1 )
 text = "Exit"
 
@@ -118,7 +117,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="toggled" from="left_panel/panel/Settings/FullscreenCheckButton" to="left_panel" method="_on_FullscreenCheckButton_toggled"]
-[connection signal="item_selected" from="left_panel/panel/Settings/ResolutionOptionButton" to="left_panel" method="_on_ResolutionOptionButton_item_selected"]
-[connection signal="button_up" from="left_panel/hbox/HideShowGui" to="left_panel" method="_on_HideShowGui_button_up"]
-[connection signal="button_up" from="left_panel/hbox/ExitButton" to="left_panel" method="_on_ExitButton_button_up"]
+[connection signal="item_selected" from="LeftPanel/panel/Generation/OptionButton" to="LeftPanel/panel/Generation" method="_on_OptionButton_item_selected"]
+[connection signal="toggled" from="LeftPanel/panel/Settings/FullscreenCheckButton" to="LeftPanel" method="_on_FullscreenCheckButton_toggled"]
+[connection signal="item_selected" from="LeftPanel/panel/Settings/ResolutionOptionButton" to="LeftPanel" method="_on_ResolutionOptionButton_item_selected"]
+[connection signal="button_up" from="LeftPanel/hbox/HideShowGui" to="LeftPanel" method="_on_HideShowGui_button_up"]
+[connection signal="button_up" from="LeftPanel/hbox/ExitButton" to="LeftPanel" method="_on_ExitButton_button_up"]
