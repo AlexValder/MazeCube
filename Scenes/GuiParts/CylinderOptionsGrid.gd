@@ -61,7 +61,6 @@ func get_params() -> Dictionary:
 
 
 func _update_number(value: float, label: Node, convert_to_int: bool) -> void:
-    print("Value: %f" % [value])
     if convert_to_int:
         label.text = "%d" % int(value)
     else:

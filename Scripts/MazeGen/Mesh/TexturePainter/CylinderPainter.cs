@@ -1,9 +1,7 @@
 ﻿using System.Drawing;
 using System.IO;
 using Godot;
-using MazeCube.Scripts.MazeGen.Grid;
 using Color = System.Drawing.Color;
-using Image = Godot.Image;
 
 namespace MazeCube.Scripts.MazeGen.Mesh.TexturePainter {
     public class CylinderPainter : TexturePainter {
@@ -28,7 +26,7 @@ namespace MazeCube.Scripts.MazeGen.Mesh.TexturePainter {
             }
         }
 
-        private void PaintTexture(Bitmap image, Grid.Grid grid) {
+        private void PaintTexture(System.Drawing.Image image, Grid.Grid grid) {
             var allImage      = new Rectangle(0, 0, Side, Side);
             var sideRectangle = new Rectangle(0, 0, Side, Side / 2);
             var topCircle     = new Rectangle(0, Side / 2, Side / 2, Side / 2);
@@ -54,8 +52,8 @@ namespace MazeCube.Scripts.MazeGen.Mesh.TexturePainter {
             }
         }
 
-        public override Image CreateImage(Grid.Grid grid) {
-            var image = new Image();
+        public override Godot.Image CreateImage(Grid.Grid grid) {
+            var image = new Godot.Image();
             image.LoadPngFromBuffer(CreatePngImage(grid));
             return image;
         }
