@@ -20,13 +20,28 @@ namespace MazeCube.Scripts.MazeGen.Mesh {
         public override void _Ready() {
             _material = GetActiveMaterial(0) as SpatialMaterial;
             ClearMesh();
+
+            SetupLogger();
         }
 
+        private void SetupLogger() {
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .MinimumLevel.Debug()
+                .CreateLogger();
+        }
+
+        // ReSharper disable once UnusedMember.Global
+        // Reason: Called from GDScript
         public void ChangeMesh(string name, IDictionary<string, IDictionary<string, object>> settings) {
             switch (name) {
                 case "Cylinder":
                     this.Mesh       = new CylinderMesh();
                     _texturePainter = new CylinderPainter(500);
+                    break;
+                case "Cube":
+                    this.Mesh       = new CubeMesh();
+                    _texturePainter = new PlainPainter();
                     break;
                 default:
                     ClearMesh();
@@ -59,19 +74,26 @@ namespace MazeCube.Scripts.MazeGen.Mesh {
                     var cols    = Convert.ToInt32(properties["side_maze"]["columns"]);
                     var seed = Convert.ToString(properties["side_maze"]["seed"]).Trim();
 
-                    var grid = new Grid.Grid(rows, cols);
+                    var cylinderGrid = new Grid.Grid(rows, cols);
 
                     if (string.IsNullOrWhiteSpace(seed)) {
-                        new RecursiveBacktracker().Project(grid);
+                        new RecursiveBacktracker().Project(cylinderGrid);
                     } else {
                         if (!int.TryParse(seed, out var realSeed)) {
                             realSeed = seed.GetHashCode();
                         }
-                        new RecursiveBacktracker(realSeed).Project(grid);
+                        new RecursiveBacktracker(realSeed).Project(cylinderGrid);
                     }
 
-                    grid.DrawInConsole();
-                    _material.AlbedoTexture = _texturePainter.CreateImageTexture(grid);
+                    // cylinderGrid.DrawInConsole();
+                    _material.AlbedoTexture = _texturePainter.CreateImageTexture(cylinderGrid);
+
+                    break;
+                case "Cube":
+                    var cubeGrid = new Grid.Grid(10, 10);
+                    new RecursiveBacktracker().Project(cubeGrid);
+
+                    _material.AlbedoTexture = _texturePainter.CreateImageTexture(cubeGrid);
 
                     break;
                 default:
@@ -91,7 +113,7 @@ namespace MazeCube.Scripts.MazeGen.Mesh {
                 }
             } catch (Exception ex) {
                 Log.Logger.Error(ex, "Failed to parse default parameters for {Name}", name);
-                return null;
+                return new Dictionary<string, Dictionary<string, object>>();
             }
         }
 

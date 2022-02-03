@@ -50,7 +50,7 @@ margin_right = 186.0
 margin_bottom = 28.0
 text = "None"
 align = 1
-items = [ "None", null, false, 2, null, "Cylinder", null, false, 1, null, "Cube", null, true, 2, null ]
+items = [ "None", null, false, 2, null, "Cylinder", null, false, 1, null, "Cube", null, false, 2, null ]
 selected = 0
 
 [node name="Settings" type="VBoxContainer" parent="LeftPanel/panel"]

@@ -4,6 +4,7 @@ class_name GenerationTab
 onready var _optionButton := $OptionButton as OptionButton
 onready var _scenes := {
     "Cylinder" : preload("res://Scenes/GuiParts/CylinderSettings.tscn"),
+    "Cube" : preload("res://Scenes/GuiParts/CubeSettings.tscn"),
    }
 onready var _guiNode: Control = null
 

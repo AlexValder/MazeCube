@@ -1,8 +1,61 @@
 ﻿using System.Drawing;
 using MazeCube.Scripts.MazeGen.Grid;
+using Serilog;
 
 namespace MazeCube.Scripts.MazeGen.Mesh.TexturePainter {
-    public static class GraphicsExtensions {
+    internal static class GraphicsExtensions {
+        private class Painter {
+            public float H { get; }
+            public float V { get; }
+            private readonly Graphics _g;
+
+            public Painter(Graphics graphics, float h, float v) {
+                H  = h;
+                V  = v;
+                _g = graphics;
+            }
+
+            public void PrepareRooms(Brush fgBrush, Brush bgBrush, int width, int height) {
+                for (var i = 0; i < width; ++i)
+                for (var j = 0; j < height; ++j) {
+                    _g.FillRectangle(bgBrush, H * i, V * j, H, V);
+                    _g.FillRectangle(fgBrush, H * i + H / 4f, V * j + V / 4f, H / 2f, V / 2f);
+                }
+            }
+
+            public void DrawUp(Pen pen, int i, int j) => _g.DrawLine(
+                pen,
+                H * i + H / 2f,
+                V * j + V / 2f,
+                H * i - H / 2f,
+                V * j + V / 2f
+            );
+
+            public void DrawDown(Pen pen, int i, int j) => _g.DrawLine(
+                pen,
+                H * i + H / 2f,
+                V * j + V / 2f,
+                H * i + H * 1.5f,
+                V * j + V / 2f
+            );
+
+            public void DrawRight(Pen pen, int i, int j) => _g.DrawLine(
+                pen,
+                H * i + H / 2f,
+                V * j + V / 2f,
+                H * i + H / 2f,
+                V * j + V * 1.5f
+            );
+
+            public void DrawLeft(Pen pen, int i, int j) => _g.DrawLine(
+                pen,
+                H * i + H / 2f,
+                V * j + V / 2f,
+                H * i + H / 2f,
+                V * j - V / 2f
+            );
+        }
+
         public static void PaintMaze(
             this Graphics g,
             Rectangle rect,
@@ -10,84 +63,43 @@ namespace MazeCube.Scripts.MazeGen.Mesh.TexturePainter {
             Color fgColor,
             Color bgColor
         ) {
-            var h = rect.Width / grid.Width;
-            var v = rect.Height / grid.Height;
-            using (var bgPen = new Pen(bgColor)) {
-                using (var fgPen = new Pen(fgColor)) {
-                    // creating rooms
-                    for (var i = 0; i < grid.Width; ++i) {
-                        for (var j = 0; j < grid.Height; ++j) {
-                            g.FillRectangle(
-                                bgPen.Brush,
-                                h * i,
-                                v * j,
-                                h,
-                                v
-                            );
-                            g.FillRectangle(
-                                fgPen.Brush,
-                                h * i + h / 4f,
-                                v * j + v / 4f,
-                                h / 2f,
-                                v / 2f
-                            );
+            var painter = new Painter(
+                graphics: g,
+                h: rect.Width * 1f / grid.Width,
+                v: rect.Height * 1f / grid.Height
+            );
+
+            using (var bgPen = new Pen(bgColor))
+            using (var fgPen = new Pen(fgColor)) {
+                // creating rooms
+                painter.PrepareRooms(fgPen.Brush, bgPen.Brush, grid.Width, grid.Height);
+
+                using (var penH = new Pen(fgColor, painter.H / 2f))
+                using (var penV = new Pen(fgColor, painter.V / 2f))
+                    for (var i = 0; i < grid.Width; ++i)
+                    for (var j = 0; j < grid.Height; ++j) {
+                        var dirs = grid[i, j].Directions;
+
+                        // up: h less, v same
+                        if ((dirs & Directions.North) == Directions.North) {
+                            painter.DrawUp(penV, i, j);
+                        }
+
+                        // to the right: v bigger, h same
+                        if ((dirs & Directions.East) == Directions.East) {
+                            painter.DrawRight(penH, i, j);
+                        }
+
+                        // down: h bigger, v same
+                        if ((dirs & Directions.South) == Directions.South) {
+                            painter.DrawDown(penV, i, j);
+                        }
+
+                        // to the left: v less, h same
+                        if ((dirs & Directions.West) == Directions.West) {
+                            painter.DrawLeft(penH, i, j);
                         }
                     }
-
-                    using (var penH = new Pen(fgColor, h / 2f)) {
-                        using (var penV = new Pen(fgColor, v / 2f)) {
-                            for (var i = 0; i < grid.Width; ++i) {
-                                for (var j = 0; j < grid.Height; ++j) {
-                                    var dirs = grid[i, j].Directions;
-
-                                    // up: h less, v same
-                                    if ((dirs & Directions.North) == Directions.North) {
-                                        g.DrawLine(
-                                            penV,
-                                            h * i + h / 2f,
-                                            v * j + v / 2f,
-                                            h * i - h / 2f,
-                                            v * j + v / 2f
-                                        );
-                                    }
-
-                                    // to the right: v bigger, h same
-                                    if ((dirs & Directions.East) == Directions.East) {
-                                        g.DrawLine(
-                                            penH,
-                                            h * i + h / 2f,
-                                            v * j + v / 2f,
-                                            h * i + h / 2f,
-                                            v * j + v * 1.5f
-                                        );
-                                    }
-
-                                    // down: h bigger, v same
-                                    if ((dirs & Directions.South) == Directions.South) {
-                                        g.DrawLine(
-                                            penV,
-                                            h * i + h / 2f,
-                                            v * j + v / 2f,
-                                            h * i + h * 1.5f,
-                                            v * j + v / 2f
-                                        );
-                                    }
-
-                                    // to the left: v less, h same
-                                    if ((dirs & Directions.West) == Directions.West) {
-                                        g.DrawLine(
-                                            penH,
-                                            h * i + h / 2f,
-                                            v * j + v / 2f,
-                                            h * i + h / 2f,
-                                            v * j - v / 2f
-                                        );
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
             }
         }
     }
