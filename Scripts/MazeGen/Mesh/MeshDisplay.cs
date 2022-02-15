@@ -20,15 +20,6 @@ namespace MazeCube.Scripts.MazeGen.Mesh {
         public override void _Ready() {
             _material = GetActiveMaterial(0) as SpatialMaterial;
             ClearMesh();
-
-            SetupLogger();
-        }
-
-        private void SetupLogger() {
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.Console()
-                .MinimumLevel.Debug()
-                .CreateLogger();
         }
 
         // ReSharper disable once UnusedMember.Global

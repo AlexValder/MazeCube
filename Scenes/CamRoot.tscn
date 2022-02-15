@@ -75,7 +75,7 @@ shader_param/_round = false
 shader_param/outline_bias = 0.0
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
-[node name="cam_root" type="Spatial"]
+[node name="CamRoot" type="Spatial"]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
 script = ExtResource( 1 )
 
