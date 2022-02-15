@@ -5,6 +5,7 @@ onready var _v := $h/v as Spatial
 onready var _h := $h as Spatial
 onready var _camera := $h/v/Camera as Camera
 
+var _enabled := true
 var mouse_sensitivity := 120.0
 const MOUSE_WHEEL_STEP := 0.5
 const DEFAULT_DISTANCE := 8
@@ -17,6 +18,9 @@ func _ready():
 
 
 func _input(event: InputEvent) -> void:
+    if !_enabled:
+        return
+
     if event.is_action_released("camera_center"):
         _reset_rotation()
     elif event.is_action_released("camera_zoom_in"):
@@ -27,6 +31,16 @@ func _input(event: InputEvent) -> void:
         if Input.is_mouse_button_pressed(BUTTON_MASK_LEFT):
             _rotate_horizontal(-event.relative.x / mouse_sensitivity)
             _rotate_vertical(-event.relative.y / mouse_sensitivity)
+
+
+func disable_camera() -> void:
+    print("Disabling camera")
+    _enabled = false
+
+
+func enable_camera() -> void:
+    print("Enabling camera")
+    _enabled = true
 
 
 func _reset_zoom() -> void:
