@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Scenes/GuiParts/CylinderSettings.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/GuiParts/CylinderSettings.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/GuiParts/CylinderOptionsGrid.gd" type="Script" id=3]
 
 [node name="CylinderSettings" type="VBoxContainer"]
@@ -262,7 +262,7 @@ align = 1
 max_length = 32
 placeholder_text = "seed"
 
-[node name="GenBottonCheckBox" type="CheckBox" parent="."]
+[node name="GenBottomCheckBox" type="CheckBox" parent="."]
 margin_top = 248.0
 margin_right = 1024.0
 margin_bottom = 272.0
@@ -318,12 +318,6 @@ margin_top = 276.0
 margin_right = 1024.0
 margin_bottom = 280.0
 
-[node name="GenerateButton" type="Button" parent="."]
-margin_top = 284.0
-margin_right = 1024.0
-margin_bottom = 304.0
-text = "Generate"
-
-[connection signal="toggled" from="GenSideCheckBox" to="." method="_on_GenSideCheckBox_toggled"]
-[connection signal="toggled" from="GenTopCheckBox" to="." method="_on_GenTopCheckBox_toggled"]
-[connection signal="toggled" from="GenBottonCheckBox" to="." method="_on_GenBottonCheckBox_toggled"]
+[connection signal="toggled" from="GenSideCheckBox" to="." method="OnGenSideCheckBoxToggled"]
+[connection signal="toggled" from="GenTopCheckBox" to="." method="OnGenTopCheckBoxToggled"]
+[connection signal="toggled" from="GenBottomCheckBox" to="." method="OnGenBottomCheckBoxToggled"]

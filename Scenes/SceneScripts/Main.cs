@@ -34,27 +34,19 @@ namespace MazeCube.Scenes.SceneScripts {
         public override void _Ready() {
             this.SetupNodeTools();
 
-            var error = _meshChange.Connect("clear_mesh", _meshRoot, "ClearMesh");
-            if (error != Error.Ok) {
-                Log.Error("Failed to connect \"clear_mesh\" to \"ClearMesh\"");
-                Quit(-1);
-            }
+            ConnectOrQuit(_meshChange, "ClearMesh", _meshRoot, "ClearMesh");
+            ConnectOrQuit(_meshChange, "SetupMesh", _meshRoot, "ChangeMesh");
+            ConnectOrQuit(_panel, "mouse_entered", _camera, "disable_camera");
+            ConnectOrQuit(_panel, "mouse_exited", _camera, "enable_camera");
+        }
 
-            error = _meshChange.Connect("setup_mesh", _meshRoot, "ChangeMesh");
+        private void ConnectOrQuit(Node from, string signal, Node to, string method) {
+            var error = from.Connect(signal, to, method);
             if (error != Error.Ok) {
-                Log.Error("Failed to connect \"setup_mesh\" to \"ChangeMesh\"");
-                Quit(-1);
-            }
-
-            error = _panel.Connect("mouse_entered", _camera, "disable_camera");
-            if (error != Error.Ok) {
-                Log.Error("Failed to connect \"mouse_entered\" to \"disable_camera\"");
-                Quit(-1);
-            }
-
-            error = _panel.Connect("mouse_exited", _camera, "enable_camera");
-            if (error != Error.Ok) {
-                Log.Error("Failed to connect \"mouse_exited\" to \"enable_camera\"");
+                Log.Error(
+                    "Failed to connect {From}.{Signal} to {To}.{Method}",
+                    from.Name, signal, to.Name, method
+                );
                 Quit(-1);
             }
         }

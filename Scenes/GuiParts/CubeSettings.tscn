@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://Scenes/GuiParts/CubeSettings.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/GuiParts/CubeSettings.cs" type="Script" id=1]
 
 [node name="CubeSettings" type="VBoxContainer"]
 anchor_right = 1.0
@@ -9,8 +9,3 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="GenerateButton" type="Button" parent="."]
-margin_right = 1024.0
-margin_bottom = 20.0
-text = "Generate"
