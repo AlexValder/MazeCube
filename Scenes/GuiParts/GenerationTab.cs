@@ -33,7 +33,7 @@ namespace MazeCube.Scenes.GuiParts {
                     signal: "button_up",
                     target: this,
                     method: nameof(GenerateButton),
-                    binds: new Array() {text}
+                    binds: new Array {text}
                 );
                 SetUpGuiChild(child);
                 EmitSignal(nameof(SetupMesh), text, child.GetParams());

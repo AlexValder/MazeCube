@@ -6,7 +6,7 @@ namespace MazeCube.Scenes.GuiParts {
     public class CylinderSettings : ModelSettingsBase {
 
         // ReSharper disable FieldCanBeMadeReadOnly.Local
-        [NodePath("CylinderOptionsGrid")] private Control _meshSettings = null;
+        [NodePath("CylinderOptionsGrid")] private CylinderOptionsGrid _meshSettings = null;
         [NodePath("GenSideCheckBox")] private CheckBox _sideCheckBox = null;
         [NodePath("SideMazeGrid")] private GridContainer _sideParamContainer = null;
         [NodePath("GenTopCheckBox")] private CheckBox _topCheckBox = null;
@@ -54,7 +54,7 @@ namespace MazeCube.Scenes.GuiParts {
 
         public override Dictionary<string, object> GetParams() =>
             new Dictionary<string, object> {
-                ["mesh_options"] = _meshSettings.Call("get_params"),
+                ["mesh_options"] = _meshSettings.GetParams(),
                 ["side_maze"]    = GetSideMazeParams(),
                 ["top_maze"]     = new Dictionary<string, object>(),
                 ["bottom_maze"]  = new Dictionary<string, object>(),
