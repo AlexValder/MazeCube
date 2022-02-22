@@ -14,20 +14,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/SceneScripts/CamRoot.gd"
 }, {
-"base": "GridContainer",
-"class": "CylinderOptions",
-"language": "GDScript",
-"path": "res://Scenes/GuiParts/CylinderOptionsGrid.gd"
-}, {
 "base": "Label",
 "class": "FpsLabel",
 "language": "GDScript",
 "path": "res://Scenes/SceneScripts/FpsLabel.gd"
-}, {
-"base": "VBoxContainer",
-"class": "GenerationTab",
-"language": "GDScript",
-"path": "res://Scenes/GuiParts/GenerationTab.gd"
 }, {
 "base": "VBoxContainer",
 "class": "LeftPanel",
@@ -36,9 +26,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "CenteredCamera": "",
-"CylinderOptions": "",
 "FpsLabel": "",
-"GenerationTab": "",
 "LeftPanel": ""
 }
 
