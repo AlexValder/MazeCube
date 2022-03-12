@@ -40,6 +40,12 @@ namespace MazeCube.Scenes.SceneScripts {
             ConnectOrQuit(_panel, "mouse_exited", _camera, "enable_camera");
         }
 
+        public override void _Input(InputEvent @event) {
+            if (@event.IsActionReleased("quit")) {
+                Quit(0);
+            }
+        }
+
         private void ConnectOrQuit(Node from, string signal, Node to, string method) {
             var error = from.Connect(signal, to, method);
             if (error != Error.Ok) {
@@ -51,7 +57,7 @@ namespace MazeCube.Scenes.SceneScripts {
             }
         }
 
-        private void Quit(int code = 0) {
+        private void Quit(int code) {
             GetTree().Quit(code);
         }
     }

@@ -81,22 +81,22 @@ namespace MazeCube.Scripts.MazeGen.Mesh.TexturePainter {
                         var dirs = grid[i, j].Directions;
 
                         // up: h less, v same
-                        if ((dirs & Directions.North) == Directions.North) {
+                        if ((dirs & Directions.Up) == Directions.Up) {
                             painter.DrawUp(penV, i, j);
                         }
 
                         // to the right: v bigger, h same
-                        if ((dirs & Directions.East) == Directions.East) {
+                        if ((dirs & Directions.Right) == Directions.Right) {
                             painter.DrawRight(penH, i, j);
                         }
 
                         // down: h bigger, v same
-                        if ((dirs & Directions.South) == Directions.South) {
+                        if ((dirs & Directions.Down) == Directions.Down) {
                             painter.DrawDown(penV, i, j);
                         }
 
                         // to the left: v less, h same
-                        if ((dirs & Directions.West) == Directions.West) {
+                        if ((dirs & Directions.Left) == Directions.Left) {
                             painter.DrawLeft(penH, i, j);
                         }
                     }
