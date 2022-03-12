@@ -65,7 +65,7 @@ namespace MazeCube.Scripts.MazeGen.Mesh {
                     var cols    = Convert.ToInt32(properties["side_maze"]["columns"]);
                     var seed = Convert.ToString(properties["side_maze"]["seed"]).Trim();
 
-                    var cylinderGrid = new Grid.Grid(rows, cols);
+                    var cylinderGrid = new Grid.CylinderGrid(rows, cols);
 
                     if (string.IsNullOrWhiteSpace(seed)) {
                         new RecursiveBacktracker().Project(cylinderGrid);
@@ -76,7 +76,7 @@ namespace MazeCube.Scripts.MazeGen.Mesh {
                         new RecursiveBacktracker(realSeed).Project(cylinderGrid);
                     }
 
-                    // cylinderGrid.DrawInConsole();
+                    cylinderGrid.DrawInConsole();
                     _material.AlbedoTexture = _texturePainter.CreateImageTexture(cylinderGrid);
 
                     break;

@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
 using Godot;
-using Color = System.Drawing.Color;
 
 namespace MazeCube.Scripts.MazeGen.Grid {
     public class Grid {
@@ -17,7 +13,6 @@ namespace MazeCube.Scripts.MazeGen.Grid {
 
         public Grid(int rows, int columns) {
             _innerGrid = PrepareGrid(rows, columns);
-            ConfigureCells();
         }
 
         private Cell[,] PrepareGrid(int rows, int columns) {
@@ -29,18 +24,6 @@ namespace MazeCube.Scripts.MazeGen.Grid {
             }
 
             return grid;
-        }
-
-        private void ConfigureCells() {
-            foreach (var cell in _innerGrid) {
-                var row = cell.Row;
-                var col = cell.Column;
-
-                cell.North = this[row - 1, col];
-                cell.South = this[row + 1, col];
-                cell.West  = this[row, col - 1];
-                cell.East  = this[row, col + 1];
-            }
         }
 
         public virtual Cell this[int row, int col] {
@@ -72,6 +55,64 @@ namespace MazeCube.Scripts.MazeGen.Grid {
             return _innerGrid[rand.Next(0, Width), rand.Next(0, Height)];
         }
 
+        public void Link(Cell cell1, Cell cell2) {
+            SelectMutualPositions(cell1, cell2, (c, directions) => { c.Directions |= directions; });
+        }
+
+        public void Unlink(Cell cell1, Cell cell2) {
+            SelectMutualPositions(cell1, cell2, (c, directions) => { c.Directions &= ~directions; });
+        }
+
+        protected virtual void SelectMutualPositions(Cell cell1, Cell cell2, Action<Cell, Directions> action) {
+            if (cell1.Y == cell2.Y) {
+                switch (cell2.X - cell1.X) {
+                    case 1:
+                        action(cell1, Directions.Down);
+                        action(cell2, Directions.Up);
+                        break;
+                    case -1:
+                        action(cell1, Directions.Up);
+                        action(cell2, Directions.Down);
+                        break;
+                    default:
+                        throw NotANeighbor(cell1, cell2);
+                }
+            } else if (cell1.X == cell2.X) {
+                switch (cell2.Y - cell1.Y) {
+                    case 1:
+                        // cell1 is above cell2
+                        action(cell1, Directions.Right);
+                        action(cell2, Directions.Left);
+                        break;
+                    case -1:
+                        // cell1 is below cell2
+                        action(cell1, Directions.Left);
+                        action(cell2, Directions.Right);
+                        break;
+                    default:
+                        throw NotANeighbor(cell1, cell2);
+                }
+            } else {
+                throw NotANeighbor(cell1, cell2);
+            }
+        }
+
+        public virtual List<Cell> Neighbors(int x, int y) {
+            var list = new List<Cell>(4);
+            if (x < 0 || y < 0) return list;
+            if (x >= Width || y >= Height) return list;
+
+            if (x > 0) list.Add(this[x - 1, y]);
+            if (y > 0) list.Add(this[x, y - 1]);
+            if (x < Width - 1) list.Add(this[x + 1, y]);
+            if (y < Height - 1) list.Add(this[x, y + 1]);
+            return list;
+        }
+
+        protected ArgumentException NotANeighbor(Cell cell1, Cell cell2) {
+            return new ArgumentException($"This cell is not a neighbor cell. (This {cell1}, cell is {cell2}");
+        }
+
         [Conditional("DEBUG")]
         public void DrawInConsole() {
             for (var i = 0; i < Width; ++i) {
@@ -86,35 +127,35 @@ namespace MazeCube.Scripts.MazeGen.Grid {
                 switch (cell.Directions) {
                     case Directions.None:
                         return '▨';
-                    case Directions.North:
+                    case Directions.Up:
                         return '╨';
-                    case Directions.East:
+                    case Directions.Right:
                         return '╞';
-                    case Directions.South:
+                    case Directions.Down:
                         return '╥';
-                    case Directions.West:
+                    case Directions.Left:
                         return '╡';
-                    case Directions.North | Directions.East:
+                    case Directions.Up | Directions.Right:
                         return '╚';
-                    case Directions.North | Directions.South:
+                    case Directions.Up | Directions.Down:
                         return '║';
-                    case Directions.North | Directions.West:
+                    case Directions.Up | Directions.Left:
                         return '╝';
-                    case Directions.East | Directions.South:
+                    case Directions.Right | Directions.Down:
                         return '╔';
-                    case Directions.West | Directions.South:
+                    case Directions.Left | Directions.Down:
                         return '╗';
-                    case Directions.West | Directions.East:
+                    case Directions.Left | Directions.Right:
                         return '═';
-                    case Directions.East | Directions.South | Directions.West:
+                    case Directions.Right | Directions.Down | Directions.Left:
                         return '╦';
-                    case Directions.North | Directions.South | Directions.West:
+                    case Directions.Up | Directions.Down | Directions.Left:
                         return '╣';
-                    case Directions.North | Directions.East | Directions.West:
+                    case Directions.Up | Directions.Right | Directions.Left:
                         return '╩';
-                    case Directions.North | Directions.East | Directions.South:
+                    case Directions.Up | Directions.Right | Directions.Down:
                         return '╠';
-                    case Directions.North | Directions.East | Directions.South | Directions.West:
+                    case Directions.Up | Directions.Right | Directions.Down | Directions.Left:
                         return '╬';
                     default:
                         return '╳';

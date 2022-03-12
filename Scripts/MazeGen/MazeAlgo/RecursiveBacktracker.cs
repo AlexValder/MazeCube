@@ -13,14 +13,17 @@ namespace MazeCube.Scripts.MazeGen.MazeAlgo {
             };
 
             while (stack.Count > 0) {
-                var current = stack[stack.Count - 1];
-                var neighbors = current.Neighbors.Where(c => !c.Links.Any()).ToList();
+                var current   = stack[stack.Count - 1];
+                var neighbors = grid
+                    .Neighbors(current.X, current.Y)
+                    .Where(c => c.Directions == Directions.None)
+                    .ToList();
 
                 if (!neighbors.Any()) {
                     stack.RemoveAt(stack.Count - 1);
                 } else {
                     var neighbor = neighbors[Random.Next(neighbors.Count)];
-                    current.Link(neighbor);
+                    grid.Link(current, neighbor);
                     stack.Add(neighbor);
                 }
             }
