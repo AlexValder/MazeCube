@@ -110,7 +110,7 @@ namespace MazeCube.Scripts.MazeGen.Grid {
         }
 
         protected ArgumentException NotANeighbor(Cell cell1, Cell cell2) {
-            return new ArgumentException($"This cell is not a neighbor cell. (This {cell1}, cell is {cell2}");
+            return new($"This cell is not a neighbor cell. (This {cell1}, cell is {cell2}");
         }
 
         [Conditional("DEBUG")]

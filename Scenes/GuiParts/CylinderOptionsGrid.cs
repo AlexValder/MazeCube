@@ -53,27 +53,27 @@ namespace MazeCube.Scenes.GuiParts {
         }
 
         private Dictionary<string, SliderData> GetSliderData() => new Dictionary<string, SliderData> {
-            ["height"] = new SliderData {
+            ["height"] = new() {
                 Slider     = _heightSlider,
                 ValueLabel = GetNode<Label>("valueLabel1"),
                 IsInt      = false,
             },
-            ["top_radius"] = new SliderData {
+            ["top_radius"] = new() {
                 Slider     = _topRadiusSlider,
                 ValueLabel = GetNode<Label>("valueLabel2"),
                 IsInt      = false,
             },
-            ["bottom_radius"] = new SliderData {
+            ["bottom_radius"] = new() {
                 Slider     = _bottomRadiusSlider,
                 ValueLabel = GetNode<Label>("valueLabel3"),
                 IsInt      = false,
             },
-            ["radial_segments"] = new SliderData {
+            ["radial_segments"] = new() {
                 Slider     = _radialSegmentsSlider,
                 ValueLabel = GetNode<Label>("valueLabel4"),
                 IsInt      = true,
             },
-            ["rings"] = new SliderData {
+            ["rings"] = new() {
                 Slider     = _ringsSlider,
                 ValueLabel = GetNode<Label>("valueLabel5"),
                 IsInt      = true,

@@ -10,7 +10,7 @@ namespace MazeCube.Scenes.GuiParts {
         [NodePath("OptionButton")] private OptionButton _optionButton = null;
         // ReSharper enable FieldCanBeMadeReadOnly.Local
 
-        private readonly Dictionary<string, PackedScene> _scenes = new Dictionary<string, PackedScene> {
+        private readonly Dictionary<string, PackedScene> _scenes = new() {
             ["Cylinder"] = GD.Load<PackedScene>("res://Scenes/GuiParts/CylinderSettings.tscn"),
             ["Cube"]     = GD.Load<PackedScene>("res://Scenes/GuiParts/CubeSettings.tscn"),
         };

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MazeCube.Scripts.MazeGen.Grid;
+using Serilog;
 
 namespace MazeCube.Scripts.MazeGen.MazeAlgo {
     public class RecursiveBacktracker : RandomMaze {
