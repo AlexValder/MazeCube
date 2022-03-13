@@ -7,9 +7,6 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="CylinderOptionsGrid" type="GridContainer" parent="."]
 margin_right = 1024.0
@@ -215,14 +212,13 @@ placeholder_text = "seed"
 margin_top = 220.0
 margin_right = 1024.0
 margin_bottom = 244.0
-disabled = true
+pressed = true
 text = "Generate Top Maze"
 
 [node name="TopMazeGrid" type="GridContainer" parent="."]
-visible = false
-margin_top = 112.0
+margin_top = 248.0
 margin_right = 1024.0
-margin_bottom = 136.0
+margin_bottom = 328.0
 grow_horizontal = 0
 grow_vertical = 0
 columns = 2
@@ -232,20 +228,39 @@ margin_top = 5.0
 margin_right = 510.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
-text = "   In Radius"
+text = "   Rings Count"
 valign = 1
 
-[node name="GridTopSpinBox" type="SpinBox" parent="TopMazeGrid"]
+[node name="GridTopInRadiusSpinBox" type="SpinBox" parent="TopMazeGrid"]
 margin_left = 514.0
 margin_right = 1024.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 min_value = 5.0
 max_value = 50.0
-value = 10.0
+value = 5.0
 align = 1
 
 [node name="label2" type="Label" parent="TopMazeGrid"]
+margin_top = 33.0
+margin_right = 510.0
+margin_bottom = 47.0
+size_flags_horizontal = 3
+text = "   Cells In Ring"
+valign = 1
+
+[node name="GridTopRingsSpinBox" type="SpinBox" parent="TopMazeGrid"]
+margin_left = 514.0
+margin_top = 28.0
+margin_right = 1024.0
+margin_bottom = 52.0
+size_flags_horizontal = 3
+min_value = 5.0
+max_value = 50.0
+value = 5.0
+align = 1
+
+[node name="label3" type="Label" parent="TopMazeGrid"]
 margin_top = 61.0
 margin_right = 510.0
 margin_bottom = 75.0
@@ -263,17 +278,16 @@ max_length = 32
 placeholder_text = "seed"
 
 [node name="GenBottomCheckBox" type="CheckBox" parent="."]
-margin_top = 248.0
+margin_top = 332.0
 margin_right = 1024.0
-margin_bottom = 272.0
-disabled = true
+margin_bottom = 356.0
+pressed = true
 text = "Generate Bottom Maze"
 
 [node name="BottomMazeGrid" type="GridContainer" parent="."]
-visible = false
-margin_top = 168.0
+margin_top = 360.0
 margin_right = 1024.0
-margin_bottom = 192.0
+margin_bottom = 440.0
 grow_horizontal = 0
 grow_vertical = 0
 columns = 2
@@ -283,20 +297,39 @@ margin_top = 5.0
 margin_right = 510.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
-text = "   In Radius"
+text = "   Rings Count"
 valign = 1
 
-[node name="GridBottomSpinBox" type="SpinBox" parent="BottomMazeGrid"]
+[node name="GridBottomInRadiusSpinBox" type="SpinBox" parent="BottomMazeGrid"]
 margin_left = 514.0
 margin_right = 1024.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 min_value = 5.0
 max_value = 50.0
-value = 10.0
+value = 5.0
 align = 1
 
 [node name="label2" type="Label" parent="BottomMazeGrid"]
+margin_top = 33.0
+margin_right = 510.0
+margin_bottom = 47.0
+size_flags_horizontal = 3
+text = "   Cells In Ring"
+valign = 1
+
+[node name="GridBottomRingsSpinBox" type="SpinBox" parent="BottomMazeGrid"]
+margin_left = 514.0
+margin_top = 28.0
+margin_right = 1024.0
+margin_bottom = 52.0
+size_flags_horizontal = 3
+min_value = 5.0
+max_value = 50.0
+value = 5.0
+align = 1
+
+[node name="label3" type="Label" parent="BottomMazeGrid"]
 margin_top = 61.0
 margin_right = 510.0
 margin_bottom = 75.0
@@ -314,9 +347,9 @@ max_length = 32
 placeholder_text = "seed"
 
 [node name="hsep2" type="HSeparator" parent="."]
-margin_top = 276.0
+margin_top = 444.0
 margin_right = 1024.0
-margin_bottom = 280.0
+margin_bottom = 448.0
 
 [connection signal="toggled" from="GenSideCheckBox" to="." method="OnGenSideCheckBoxToggled"]
 [connection signal="toggled" from="GenTopCheckBox" to="." method="OnGenTopCheckBoxToggled"]

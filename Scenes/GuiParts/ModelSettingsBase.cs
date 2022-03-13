@@ -14,7 +14,7 @@ namespace MazeCube.Scenes.GuiParts {
             this.AddChild(GenerationButton);
         }
 
-        private Button PrepareButton() => new Button {
+        private Button PrepareButton() => new() {
             Text = "Generate",
             Name = "GenerationButton",
         };

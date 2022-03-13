@@ -12,6 +12,7 @@ namespace MazeCube.Scenes.GuiParts {
         [NodePath("GenTopCheckBox")] private CheckBox _topCheckBox = null;
         [NodePath("TopMazeGrid")] private GridContainer _topParamContainer = null;
         [NodePath("GenBottomCheckBox")] private CheckBox _bottomCheckBox = null;
+
         [NodePath("BottomMazeGrid")] private GridContainer _bottomParamContainer = null;
         // ReSharper enable FieldCanBeMadeReadOnly.Local
 
@@ -19,13 +20,9 @@ namespace MazeCube.Scenes.GuiParts {
             base._Ready();
             this.SetupNodeTools();
 
-            _sideCheckBox.Pressed = true;
-
-            _topCheckBox.Pressed  = false;
-            _topCheckBox.Disabled = true;
-
-            _bottomCheckBox.Pressed  = false;
-            _bottomCheckBox.Disabled = true;
+            _sideCheckBox.Pressed   = true;
+            _topCheckBox.Pressed    = true;
+            _bottomCheckBox.Pressed = true;
 
             _sideParamContainer.Visible   = _sideCheckBox.Pressed;
             _topParamContainer.Visible    = _topCheckBox.Pressed;
@@ -46,18 +43,38 @@ namespace MazeCube.Scenes.GuiParts {
             UpdateVisibility(buttonPressed, _bottomParamContainer);
 
         private Dictionary<string, object> GetSideMazeParams() =>
-            new Dictionary<string, object> {
-                ["rows"]    = _sideParamContainer.GetNode<SpinBox>("GridVerticalSpinBox").Value,
-                ["columns"] = _sideParamContainer.GetNode<SpinBox>("GridHorizontalSpinBox").Value,
-                ["seed"]    = _sideParamContainer.GetNode<LineEdit>("SeedLineEdit").Text,
-            };
+            _sideCheckBox.Pressed
+                ? new Dictionary<string, object> {
+                    ["rows"]    = _sideParamContainer.GetNode<SpinBox>("GridVerticalSpinBox").Value,
+                    ["columns"] = _sideParamContainer.GetNode<SpinBox>("GridHorizontalSpinBox").Value,
+                    ["seed"]    = _sideParamContainer.GetNode<LineEdit>("SeedLineEdit").Text,
+                }
+                : new Dictionary<string, object>();
+
+        private Dictionary<string, object> GetTopMazeParams() =>
+            _topCheckBox.Pressed
+                ? new Dictionary<string, object> {
+                    ["rings"] = _topParamContainer.GetNode<SpinBox>("GridTopInRadiusSpinBox").Value,
+                    ["cells"] = _topParamContainer.GetNode<SpinBox>("GridTopRingsSpinBox").Value,
+                    ["seed"]  = _topParamContainer.GetNode<LineEdit>("SeedLineEdit").Text,
+                }
+                : new Dictionary<string, object>();
+
+        private Dictionary<string, object> GetBottomMazeParams() =>
+            _bottomCheckBox.Pressed
+                ? new Dictionary<string, object> {
+                    ["rings"] = _bottomParamContainer.GetNode<SpinBox>("GridBottomInRadiusSpinBox").Value,
+                    ["cells"] = _bottomParamContainer.GetNode<SpinBox>("GridBottomRingsSpinBox").Value,
+                    ["seed"]  = _bottomParamContainer.GetNode<LineEdit>("SeedLineEdit").Text,
+                }
+                : new Dictionary<string, object>();
 
         public override Dictionary<string, object> GetParams() =>
-            new Dictionary<string, object> {
+            new() {
                 ["mesh_options"] = _meshSettings.GetParams(),
                 ["side_maze"]    = GetSideMazeParams(),
-                ["top_maze"]     = new Dictionary<string, object>(),
-                ["bottom_maze"]  = new Dictionary<string, object>(),
+                ["top_maze"]     = GetTopMazeParams(),
+                ["bottom_maze"]  = GetBottomMazeParams(),
             };
     }
 }

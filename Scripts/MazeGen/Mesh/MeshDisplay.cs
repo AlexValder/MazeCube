@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using Godot;
+using MazeCube.Scripts.MazeGen.Grid;
 using MazeCube.Scripts.MazeGen.MazeAlgo;
 using MazeCube.Scripts.MazeGen.Mesh.TexturePainter;
 using Newtonsoft.Json;
@@ -23,7 +24,7 @@ namespace MazeCube.Scripts.MazeGen.Mesh {
         }
 
         // ReSharper disable once UnusedMember.Global
-        // Reason: Called from GDScript
+        // Reason: Called from signal
         public void ChangeMesh(string name, IDictionary<string, IDictionary<string, object>> settings) {
             switch (name) {
                 case "Cylinder":
@@ -43,9 +44,10 @@ namespace MazeCube.Scripts.MazeGen.Mesh {
         }
 
         private void ConfigureMesh(string name, IDictionary<string, IDictionary<string, object>> settings) {
-            var properties = GetDefaultSettings(name);
+            var properties = new Dictionary<string, Dictionary<string, object>>();
             if (settings != null) {
                 foreach (var section in settings.Keys) {
+                    properties[section] = new Dictionary<string, object>();
                     foreach (var key in settings[section].Keys) {
                         properties[section][key] = settings[section][key];
                     }
@@ -61,22 +63,38 @@ namespace MazeCube.Scripts.MazeGen.Mesh {
                     cylinder.TopRadius      = Convert.ToSingle(properties["mesh_options"]["top_radius"]);
                     cylinder.RadialSegments = Convert.ToInt32(properties["mesh_options"]["radial_segments"]);
 
-                    var rows    = Convert.ToInt32(properties["side_maze"]["rows"]);
-                    var cols    = Convert.ToInt32(properties["side_maze"]["columns"]);
-                    var seed = Convert.ToString(properties["side_maze"]["seed"]).Trim();
+                    CylinderGrid cylinderGrid;
+                    if (properties["side_maze"].Count > 0) {
+                        var rows = Convert.ToInt32(properties["side_maze"]["rows"]);
+                        var cols = Convert.ToInt32(properties["side_maze"]["columns"]);
+                        var seed = Convert.ToString(properties["side_maze"]["seed"]).Trim();
 
-                    var cylinderGrid = new Grid.CylinderGrid(rows, cols);
+                        cylinderGrid = new CylinderGrid(rows, cols);
 
-                    if (string.IsNullOrWhiteSpace(seed)) {
-                        new RecursiveBacktracker().Project(cylinderGrid);
+                        ApplyMazeGenAlgo<RecursiveBacktracker>(cylinderGrid, seed);
                     } else {
-                        if (!int.TryParse(seed, out var realSeed)) {
-                            realSeed = seed.GetHashCode();
-                        }
-                        new RecursiveBacktracker(realSeed).Project(cylinderGrid);
+                        cylinderGrid = new CylinderGrid(0, 0);
                     }
 
-                    cylinderGrid.DrawInConsole();
+                    if (properties["top_maze"].Count > 0) {
+                        var ringsTop = Convert.ToInt32(properties["top_maze"]["rings"]);
+                        var cellsTop = Convert.ToInt32(properties["top_maze"]["cells"]);
+                        var seedTop  = Convert.ToString(properties["top_maze"]["seed"]).Trim();
+
+                        cylinderGrid.AddTopGrid(ringsTop, cellsTop);
+                        ApplyMazeGenAlgo<RecursiveBacktracker>(cylinderGrid.TopGrid, seedTop);
+                    }
+
+                    if (properties["bottom_maze"].Count > 0) {
+                        var ringsBottom = Convert.ToInt32(properties["bottom_maze"]["rings"]);
+                        var cellsBottom = Convert.ToInt32(properties["bottom_maze"]["cells"]);
+                        var seedBottom  = Convert.ToString(properties["bottom_maze"]["seed"]).Trim();
+
+                        cylinderGrid.AddBottomGrid(ringsBottom, cellsBottom);
+                        ApplyMazeGenAlgo<RecursiveBacktracker>(cylinderGrid.BottomGrid, seedBottom);
+                    }
+
+                    //cylinderGrid.DrawInConsole();
                     _material.AlbedoTexture = _texturePainter.CreateImageTexture(cylinderGrid);
 
                     break;
@@ -94,22 +112,36 @@ namespace MazeCube.Scripts.MazeGen.Mesh {
 
         private Dictionary<string, Dictionary<string, object>> GetDefaultSettings(string name) {
             try {
-                using (var stream = s_assembly.GetManifestResourceStream(PREFIX + $"{name.Capitalize()}.json")) {
-                    Debug.Assert(stream != null, nameof(stream) + " != null");
-                    using (var textReader = new StreamReader(stream))
-                    using (var jsonReader = new JsonTextReader(textReader)) {
-                        return JToken.ReadFrom(jsonReader)
-                            .ToObject<Dictionary<string, Dictionary<string, object>>>();
-                    }
-                }
+                using var stream = s_assembly.GetManifestResourceStream(PREFIX + $"{name.Capitalize()}.json");
+                Debug.Assert(stream != null, nameof(stream) + " != null");
+                using var textReader = new StreamReader(stream);
+                using var jsonReader = new JsonTextReader(textReader);
+                return JToken.ReadFrom(jsonReader)
+                    .ToObject<Dictionary<string, Dictionary<string, object>>>();
             } catch (Exception ex) {
                 Log.Logger.Error(ex, "Failed to parse default parameters for {Name}", name);
                 return new Dictionary<string, Dictionary<string, object>>();
             }
         }
 
+        // ReSharper disable once MemberCanBePrivate.Global
+        // Reason: Called from signal
         public void ClearMesh() {
             this.Mesh = null;
+        }
+
+        private void ApplyMazeGenAlgo<T>(Grid.Grid grid, string rawSeed) where T : RandomMaze {
+            RandomMaze mazeGen;
+            if (string.IsNullOrWhiteSpace(rawSeed)) {
+                mazeGen = (RandomMaze)Activator.CreateInstance(typeof(T), new object[] {null});
+            } else {
+                if (!int.TryParse(rawSeed, out var realSeed)) {
+                    realSeed = rawSeed.GetHashCode();
+                }
+
+                mazeGen = (RandomMaze)Activator.CreateInstance(typeof(T), (int?)realSeed);
+            }
+            mazeGen.Project(grid);
         }
     }
 }

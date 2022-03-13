@@ -10,7 +10,7 @@ namespace MazeCube.Scenes.GuiParts {
         }
 
         public override Dictionary<string, object> GetParams() {
-            return new Dictionary<string, object>();
+            return new();
         }
     }
 }
