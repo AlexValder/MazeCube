@@ -115,6 +115,7 @@ namespace MazeCube.Scripts.MazeGen.Grid {
 
         [Conditional("DEBUG")]
         public void DrawInConsole() {
+            GD.Print("===========");
             for (var i = 0; i < Width; ++i) {
                 var chars = new List<char>(Height);
                 for (var j = 0; j < Height; ++j) {
