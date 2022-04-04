@@ -16,8 +16,8 @@ namespace MazeCube.Scripts.MazeGen.Mesh.TexturePainter {
             var painter = new SidePainter(
                 graphics: g,
                 rect: rect,
-                h: rect.Width * 1f / grid.Width,
-                v: rect.Height * 1f / grid.Height
+                h: rect.Width * 1f / grid.Height,
+                v: rect.Height * 1f / grid.Width
             );
 
             if (grid.Size == 0) {
@@ -33,8 +33,8 @@ namespace MazeCube.Scripts.MazeGen.Mesh.TexturePainter {
 
             using var penH = new Pen(fgColor, painter.H / 2f);
             using var penV = new Pen(fgColor, painter.V / 2f);
-            for (var i = 0; i < grid.Width; ++i)
-            for (var j = 0; j < grid.Height; ++j) {
+            for (var i = 0; i < grid.Height; ++i)
+            for (var j = 0; j < grid.Width; ++j) {
                 var dirs = grid[i, j].Directions;
 
                 // up: h less, v same
@@ -73,7 +73,7 @@ namespace MazeCube.Scripts.MazeGen.Mesh.TexturePainter {
             using var fgBrush = new SolidBrush(fgColor);
 
             if (grid == null || grid.Size == 0) {
-                new CirclePainter(g, rect).NoMaze(fgBrush);
+                new CirclePainter(g, rect).NoMaze(bgBrush);
                 return;
             }
 

@@ -94,7 +94,7 @@ namespace MazeCube.Scripts.MazeGen.Mesh {
                         ApplyMazeGenAlgo<RecursiveBacktracker>(cylinderGrid.BottomGrid, seedBottom);
                     }
 
-                    //cylinderGrid.DrawInConsole();
+                    cylinderGrid.DrawInConsole();
                     _material.AlbedoTexture = _texturePainter.CreateImageTexture(cylinderGrid);
 
                     break;

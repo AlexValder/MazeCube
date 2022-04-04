@@ -7,8 +7,8 @@ namespace MazeCube.Scripts.MazeGen.Grid {
     public class Grid {
         private readonly Cell[,] _innerGrid;
 
-        public int Width => _innerGrid.GetLength(0);
-        public int Height => _innerGrid.GetLength(1);
+        public int Height => _innerGrid.GetLength(0);
+        public int Width => _innerGrid.GetLength(1);
         public int Size => _innerGrid.Length;
 
         public Grid(int rows, int columns) {
@@ -52,7 +52,7 @@ namespace MazeCube.Scripts.MazeGen.Grid {
 
         public Cell RandomCell(int? seed = null) {
             var rand = seed == null ? new Random() : new Random(seed.Value);
-            return _innerGrid[rand.Next(0, Width), rand.Next(0, Height)];
+            return _innerGrid[rand.Next(0, Height), rand.Next(0, Width)];
         }
 
         public void Link(Cell cell1, Cell cell2) {
@@ -100,12 +100,12 @@ namespace MazeCube.Scripts.MazeGen.Grid {
         public virtual List<Cell> Neighbors(int x, int y) {
             var list = new List<Cell>(4);
             if (x < 0 || y < 0) return list;
-            if (x >= Width || y >= Height) return list;
+            if (x >= Height || y >= Width) return list;
 
             if (x > 0) list.Add(this[x - 1, y]);
             if (y > 0) list.Add(this[x, y - 1]);
-            if (x < Width - 1) list.Add(this[x + 1, y]);
-            if (y < Height - 1) list.Add(this[x, y + 1]);
+            if (x < Height - 1) list.Add(this[x + 1, y]);
+            if (y < Width - 1) list.Add(this[x, y + 1]);
             return list;
         }
 
@@ -114,13 +114,18 @@ namespace MazeCube.Scripts.MazeGen.Grid {
         }
 
         [Conditional("DEBUG")]
-        public void DrawInConsole() {
+        public virtual void DrawInConsole() {
             GD.Print("===========");
-            for (var i = 0; i < Width; ++i) {
-                var chars = new List<char>(Height);
-                for (var j = 0; j < Height; ++j) {
-                    chars.Add(CellToChar(_innerGrid[i, j]));
+            DrawInConsole(this);
+        }
+
+        protected static void DrawInConsole(Grid grid) {
+            for (var i = 0; i < grid.Height; ++i) {
+                var chars = new List<char>(grid.Width);
+                for (var j = 0; j < grid.Width; ++j) {
+                    chars.Add(CellToChar(grid._innerGrid[i, j]));
                 }
+
                 GD.Print(string.Join("", chars));
             }
 

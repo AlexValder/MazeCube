@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Godot;
 
 namespace MazeCube.Scripts.MazeGen.Grid {
     public class CylinderGrid : CircularGrid {
@@ -18,6 +19,20 @@ namespace MazeCube.Scripts.MazeGen.Grid {
             if (BottomGrid != null) return;
 
             BottomGrid = new PolarGrid(rings, cells);
+        }
+
+        public override void DrawInConsole() {
+            GD.Print("=== SIDE ===");
+            DrawInConsole(this);
+            if (TopGrid != null) {
+                GD.Print("=== TOP ===");
+                DrawInConsole(TopGrid);
+            }
+
+            if (BottomGrid != null) {
+                GD.Print("=== BOTTOM ===");
+                DrawInConsole(BottomGrid);
+            }
         }
     }
 }

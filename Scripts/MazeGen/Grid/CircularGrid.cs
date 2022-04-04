@@ -6,7 +6,7 @@ namespace MazeCube.Scripts.MazeGen.Grid {
     /// Base class for grids that loop on one of the axis
     /// </summary>
     /// <remarks>
-    /// The looping axis here is Width
+    /// The looping axis here is Height
     /// </remarks>
     public abstract class CircularGrid : Grid {
         protected CircularGrid(int rows, int columns) : base(rows, columns) { }
@@ -14,10 +14,10 @@ namespace MazeCube.Scripts.MazeGen.Grid {
         public override Cell this[int row, int col] {
             get {
                 if (row < 0) {
-                    return base[(Width + row) % Width, col];
+                    return base[(Height + row) % Height, col];
                 }
 
-                return base[row % Width, col];
+                return base[row % Height, col];
             }
         }
 
@@ -38,10 +38,10 @@ namespace MazeCube.Scripts.MazeGen.Grid {
                         throw NotANeighbor(cell1, cell2);
                 }
             } else if (cell1.Y == cell2.Y) {
-                if (cell1.X == Width - 1 && cell2.X == 0) {
+                if (cell1.X == Height - 1 && cell2.X == 0) {
                     action(cell1, Directions.Down);
                     action(cell2, Directions.Up);
-                } else if (cell1.X == 0 && cell2.X == Width - 1) {
+                } else if (cell1.X == 0 && cell2.X == Height - 1) {
                     action(cell1, Directions.Up);
                     action(cell2, Directions.Down);
                 } else {
@@ -66,12 +66,12 @@ namespace MazeCube.Scripts.MazeGen.Grid {
         public override List<Cell> Neighbors(int x, int y) {
             var list = new List<Cell>(4);
             if (y < 0) return list;
-            if (y >= Height) return list;
+            if (y >= Width) return list;
 
             list.Add(this[x - 1, y]);
             if (y > 0) list.Add(this[x, y - 1]);
             list.Add(this[x + 1, y]);
-            if (y < Height - 1) list.Add(this[x, y + 1]);
+            if (y < Width - 1) list.Add(this[x, y + 1]);
             return list;
         }
     }

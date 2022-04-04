@@ -12,8 +12,8 @@ namespace MazeCube.Scripts.MazeGen.Mesh.TexturePainter {
             }
 
             public override void PrepareRooms(Brush fgBrush, Brush bgBrush, Grid.Grid grid) {
-                for (var i = 0; i < grid.Width; ++i)
-                for (var j = 0; j < grid.Height; ++j) {
+                for (var i = 0; i < grid.Height; ++i)
+                for (var j = 0; j < grid.Width; ++j) {
                     G.FillRectangle(
                         bgBrush,
                         x: Rect.X + H * i,
