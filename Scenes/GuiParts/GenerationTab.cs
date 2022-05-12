@@ -13,12 +13,16 @@ namespace MazeCube.Scenes.GuiParts {
         private readonly Dictionary<string, PackedScene> _scenes = new() {
             ["Cylinder"] = GD.Load<PackedScene>("res://Scenes/GuiParts/CylinderSettings.tscn"),
             ["Cube"]     = GD.Load<PackedScene>("res://Scenes/GuiParts/CubeSettings.tscn"),
+            ["Mobius"]   = GD.Load<PackedScene>("res://Scenes/GuiParts/MobiusSettings.tscn"),
         };
 
         private ModelSettingsBase _guiNode;
 
-        [Signal] public delegate void ClearMesh();
-        [Signal] public delegate void SetupMesh(string name, Dictionary<string, object> settings);
+        [Signal]
+        public delegate void ClearMesh();
+
+        [Signal]
+        public delegate void SetupMesh(string name, Dictionary<string, object> settings);
 
         public override void _Ready() {
             this.SetupNodeTools();

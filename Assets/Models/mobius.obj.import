@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/mobius.obj-62cb27b23d09d061a9f94eb6fb209e1f.mesh"
+
+[deps]
+
+files=[ "res://.import/mobius.obj-62cb27b23d09d061a9f94eb6fb209e1f.mesh" ]
+
+source_file="res://Assets/Models/mobius.obj"
+dest_files=[ "res://.import/mobius.obj-62cb27b23d09d061a9f94eb6fb209e1f.mesh", "res://.import/mobius.obj-62cb27b23d09d061a9f94eb6fb209e1f.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286

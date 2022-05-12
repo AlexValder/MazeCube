@@ -35,6 +35,10 @@ namespace MazeCube.Scripts.MazeGen.Mesh {
                     this.Mesh       = new CubeMesh();
                     _texturePainter = new PlainPainter();
                     break;
+                case "Mobius":
+                    this.Mesh       = GD.Load<Godot.Mesh>("res://Assets/Models/mobius.obj");
+                    _texturePainter = new MobiusPainter(500);
+                    break;
                 default:
                     ClearMesh();
                     return;
@@ -52,6 +56,11 @@ namespace MazeCube.Scripts.MazeGen.Mesh {
                         properties[section][key] = settings[section][key];
                     }
                 }
+            }
+
+            if (_material == null) {
+                _material = new SpatialMaterial();
+                this.SetSurfaceMaterial(0, _material);
             }
 
             switch (name) {
@@ -100,9 +109,19 @@ namespace MazeCube.Scripts.MazeGen.Mesh {
                     break;
                 case "Cube":
                     var cubeGrid = new Grid.Grid(10, 10);
-                    new RecursiveBacktracker().Project(cubeGrid);
+                    ApplyMazeGenAlgo<RecursiveBacktracker>(cubeGrid, null);
 
                     _material.AlbedoTexture = _texturePainter.CreateImageTexture(cubeGrid);
+
+                    break;
+                case "Mobius":
+                    var mobiusRows    = Convert.ToInt32(properties["maze"]["rows"]);
+                    var mobiusCols    = Convert.ToInt32(properties["maze"]["cols"]);
+                    var mobiusRawSeed = Convert.ToString(properties["maze"]["seed"]);
+                    var mobiusGrid    = new MobiusGrid(mobiusRows, mobiusCols);
+                    ApplyMazeGenAlgo<RecursiveBacktracker>(mobiusGrid, mobiusRawSeed);
+
+                    _material.AlbedoTexture = _texturePainter.CreateImageTexture(mobiusGrid);
 
                     break;
                 default:

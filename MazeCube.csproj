@@ -15,6 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DefaultMeshProperties\Cube.json" />
+    <Content Include="DefaultMeshProperties\Mobius.json" />
     <Content Include="Scenes\SceneScripts\CamRoot.gd" />
     <Content Include="Scenes\SceneScripts\FpsLabel.gd" />
     <Content Include="Scenes\SceneScripts\LeftPanel.gd" />

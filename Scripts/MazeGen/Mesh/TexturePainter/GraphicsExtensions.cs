@@ -8,7 +8,7 @@ namespace MazeCube.Scripts.MazeGen.Mesh.TexturePainter {
     internal static partial class GraphicsExtensions {
         public static void PaintRectMaze(
             this Graphics g,
-            Rectangle rect,
+            RectangleF rect,
             Grid.Grid grid,
             Color fgColor,
             Color bgColor

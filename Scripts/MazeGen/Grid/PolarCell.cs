@@ -4,5 +4,7 @@
         public int Cell => Y;
 
         public PolarCell(int x, int y) : base(x, y) { }
+
+        // TODO: Division
     }
 }
