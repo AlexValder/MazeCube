@@ -8,13 +8,7 @@ using Color = System.Drawing.Color;
 
 namespace MazeCube.Scripts.MazeGen.Mesh.TexturePainter {
     public class CylinderPainter : TexturePainter {
-        public int Side { get; }
-        public Color ErrorColor { get; set; } = Color.Red;
-        public Color BgColor { get; set; } = Color.Black;
-        public Color FgColor { get; set; } = Color.White;
-
-        public CylinderPainter(int side) {
-            Side = side;
+        public CylinderPainter(int side) : base(side) {
         }
 
         protected override byte[] CreatePngImage(Grid.Grid grid) {

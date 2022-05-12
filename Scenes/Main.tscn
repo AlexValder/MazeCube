@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scenes/GUI.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/CamRoot.tscn" type="PackedScene" id=2]
@@ -7,16 +7,6 @@
 
 [sub_resource type="CubeMesh" id=1]
 
-[sub_resource type="SpatialMaterial" id=2]
-emission_enabled = true
-emission = Color( 1, 1, 1, 1 )
-emission_energy = 0.05
-emission_operator = 0
-emission_on_uv2 = true
-clearcoat_enabled = true
-clearcoat = 1.0
-clearcoat_gloss = 0.5
-
 [node name="Main" type="Node"]
 script = ExtResource( 4 )
 
@@ -24,7 +14,8 @@ script = ExtResource( 4 )
 
 [node name="MeshRoot" type="MeshInstance" parent="."]
 mesh = SubResource( 1 )
-material/0 = SubResource( 2 )
+software_skinning_transform_normals = false
+material/0 = null
 script = ExtResource( 3 )
 
 [node name="CamRoot" parent="." instance=ExtResource( 2 )]
