@@ -11,7 +11,7 @@ namespace MazeCube.Scripts.MazeGen.Grid {
         public int Width => _innerGrid.GetLength(1);
         public int Size => _innerGrid.Length;
 
-        public Grid(int rows, int columns) {
+        protected Grid(int rows, int columns) {
             _innerGrid = PrepareGrid(rows, columns);
         }
 

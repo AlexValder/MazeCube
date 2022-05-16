@@ -32,8 +32,8 @@ namespace MazeCube.Scripts.MazeGen.Mesh {
                     _texturePainter = new CylinderPainter(500);
                     break;
                 case "Cube":
-                    this.Mesh       = new CubeMesh();
-                    _texturePainter = new PlainPainter();
+                    this.Mesh       = GD.Load<Godot.Mesh>("res://Assets/Models/cube.obj");
+                    _texturePainter = new CubePainter(600);
                     break;
                 case "Mobius":
                     this.Mesh       = GD.Load<Godot.Mesh>("res://Assets/Models/mobius.obj");
@@ -108,8 +108,8 @@ namespace MazeCube.Scripts.MazeGen.Mesh {
 
                     break;
                 case "Cube":
-                    var cubeGrid = new Grid.Grid(10, 10);
-                    ApplyMazeGenAlgo<RecursiveBacktracker>(cubeGrid, null);
+                    var cubeGrid = new CubeGrid(3, 3);
+                    ApplyMazeGenAlgo<RecursiveBacktracker>(cubeGrid, "666");
 
                     _material.AlbedoTexture = _texturePainter.CreateImageTexture(cubeGrid);
 
@@ -160,6 +160,7 @@ namespace MazeCube.Scripts.MazeGen.Mesh {
 
                 mazeGen = (RandomMaze)Activator.CreateInstance(typeof(T), (int?)realSeed);
             }
+
             mazeGen.Project(grid);
         }
     }

@@ -5,6 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefaultMeshProperties\Cylinder.json" />
+    <EmbeddedResource Remove="UnitTests\**" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="GodotCSToolbox" Version="1.0.0-beta10" />
@@ -19,5 +20,8 @@
     <Content Include="Scenes\SceneScripts\CamRoot.gd" />
     <Content Include="Scenes\SceneScripts\FpsLabel.gd" />
     <Content Include="Scenes\SceneScripts\LeftPanel.gd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="UnitTests\**" />
   </ItemGroup>
 </Project>
