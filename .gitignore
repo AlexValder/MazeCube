@@ -1,5 +1,6 @@
 .import/
 .idea/
+packages/
 export.cfg
 export_presets.cfg
 *.translation
@@ -9,3 +10,4 @@ data_*/
 *.user
 *.ini
 log/
+TEST/

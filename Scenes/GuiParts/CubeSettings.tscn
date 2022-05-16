@@ -6,6 +6,45 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+
+[node name="MazeGrid" type="GridContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 52.0
+grow_horizontal = 0
+grow_vertical = 0
+columns = 2
+
+[node name="label1" type="Label" parent="MazeGrid"]
+margin_top = 5.0
+margin_right = 510.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+text = "   Grid Side Size"
+valign = 1
+
+[node name="GridSideSizeSpinBox" type="SpinBox" parent="MazeGrid"]
+margin_left = 514.0
+margin_right = 1024.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+min_value = 3.0
+max_value = 15.0
+value = 5.0
+align = 1
+
+[node name="label2" type="Label" parent="MazeGrid"]
+margin_top = 33.0
+margin_right = 510.0
+margin_bottom = 47.0
+size_flags_horizontal = 3
+text = "   Seed"
+valign = 1
+
+[node name="SeedLineEdit" type="LineEdit" parent="MazeGrid"]
+margin_left = 514.0
+margin_top = 28.0
+margin_right = 1024.0
+margin_bottom = 52.0
+align = 1
+max_length = 32
+placeholder_text = "seed"
