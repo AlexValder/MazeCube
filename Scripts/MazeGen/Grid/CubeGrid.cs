@@ -181,117 +181,89 @@ namespace MazeCube.Scripts.MazeGen.Grid {
         }
 
         protected override void SelectMutualPositions(Cell cell1, Cell cell2, Action<Cell, Directions> action) {
-            if (
-                IsSame(cell1, cell2) ||
-                IsInside(cell1) && IsInside(cell2) ||
-                IsFirstRow(cell1) && IsFirstRow(cell2)
-            ) {
-                if (cell2.X > cell1.X) {
+            try {
+                base.SelectMutualPositions(cell1, cell2, action);
+            } catch (ArgumentException) {
+                if (IsIn1(cell1) && IsIn4(cell2)) {
+                    action(cell1, Directions.Left);
+                    action(cell2, Directions.Right);
+                } else if (IsIn1(cell2) && IsIn4(cell1)) {
+                    action(cell2, Directions.Left);
+                    action(cell1, Directions.Right);
+                }
+
+                if (IsIn3(cell1) && IsIn4(cell2)) {
+                    action(cell1, Directions.Right);
+                    action(cell2, Directions.Left);
+                } else if (IsIn3(cell2) && IsIn4(cell1)) {
+                    action(cell2, Directions.Right);
+                    action(cell1, Directions.Left);
+                }
+
+                if (IsIn1(cell1) && IsIn5(cell2)) {
+                    action(cell1, Directions.Up);
+                    action(cell2, Directions.Up);
+                } else if (IsIn1(cell2) && IsIn5(cell1)) {
+                    action(cell2, Directions.Up);
+                    action(cell1, Directions.Up);
+                }
+
+                if (IsIn2(cell1) && IsIn5(cell2)) {
+                    action(cell1, Directions.Up);
+                    action(cell2, Directions.Left);
+                } else if (IsIn2(cell2) && IsIn5(cell1)) {
+                    action(cell2, Directions.Up);
+                    action(cell1, Directions.Left);
+                }
+
+                if (IsIn3(cell1) && IsIn5(cell2)) {
+                    action(cell1, Directions.Up);
+                    action(cell2, Directions.Down);
+                } else if (IsIn3(cell2) && IsIn5(cell1)) {
+                    action(cell2, Directions.Up);
+                    action(cell1, Directions.Down);
+                }
+
+                if (IsIn4(cell1) && IsIn5(cell2)) {
+                    action(cell1, Directions.Up);
+                    action(cell2, Directions.Right);
+                } else if (IsIn4(cell2) && IsIn5(cell1)) {
+                    action(cell2, Directions.Up);
+                    action(cell1, Directions.Right);
+                }
+
+                if (IsIn1(cell1) && IsIn6(cell2)) {
                     action(cell1, Directions.Down);
                     action(cell2, Directions.Up);
-                } else if (cell2.X < cell1.X) {
+                } else if (IsIn1(cell2) && IsIn6(cell1)) {
                     action(cell2, Directions.Down);
                     action(cell1, Directions.Up);
                 }
 
-                if (cell2.Y > cell1.Y) {
-                    action(cell1, Directions.Right);
-                    action(cell2, Directions.Left);
-                } else if (cell2.Y < cell1.Y) {
+                if (IsIn2(cell1) && IsIn6(cell2)) {
+                    action(cell1, Directions.Down);
                     action(cell2, Directions.Right);
+                } else if (IsIn2(cell2) && IsIn6(cell1)) {
+                    action(cell2, Directions.Down);
+                    action(cell1, Directions.Right);
+                }
+
+                if (IsIn3(cell1) && IsIn6(cell2)) {
+                    action(cell1, Directions.Down);
+                    action(cell2, Directions.Down);
+                } else if (IsIn3(cell1) && IsIn6(cell2)) {
+                    action(cell1, Directions.Down);
+                    action(cell2, Directions.Down);
+                }
+
+                if (IsIn4(cell1) && IsIn6(cell2)) {
+                    action(cell1, Directions.Down);
+                    action(cell2, Directions.Left);
+                } else if (IsIn4(cell2) && IsIn6(cell1)) {
+                    action(cell2, Directions.Down);
                     action(cell1, Directions.Left);
                 }
             }
-
-            if (IsIn1(cell1) && IsIn4(cell2)) {
-                action(cell1, Directions.Left);
-                action(cell2, Directions.Right);
-            } else if (IsIn1(cell2) && IsIn4(cell1)) {
-                action(cell2, Directions.Left);
-                action(cell1, Directions.Right);
-            }
-
-            if (IsIn3(cell1) && IsIn4(cell2)) {
-                action(cell1, Directions.Right);
-                action(cell2, Directions.Left);
-            } else if (IsIn3(cell2) && IsIn4(cell1)) {
-                action(cell2, Directions.Right);
-                action(cell1, Directions.Left);
-            }
-
-            if (IsIn1(cell1) && IsIn5(cell2)) {
-                action(cell1, Directions.Up);
-                action(cell2, Directions.Up);
-            } else if (IsIn1(cell2) && IsIn5(cell1)) {
-                action(cell2, Directions.Up);
-                action(cell1, Directions.Up);
-            }
-
-            if (IsIn2(cell1) && IsIn5(cell2)) {
-                action(cell1, Directions.Up);
-                action(cell2, Directions.Left);
-            } else if (IsIn2(cell2) && IsIn5(cell1)) {
-                action(cell2, Directions.Up);
-                action(cell1, Directions.Left);
-            }
-
-            if (IsIn3(cell1) && IsIn5(cell2)) {
-                action(cell1, Directions.Up);
-                action(cell2, Directions.Down);
-            } else if (IsIn3(cell2) && IsIn5(cell1)) {
-                action(cell2, Directions.Up);
-                action(cell1, Directions.Down);
-            }
-
-            if (IsIn4(cell1) && IsIn5(cell2)) {
-                action(cell1, Directions.Up);
-                action(cell2, Directions.Right);
-            } else if (IsIn4(cell2) && IsIn5(cell1)) {
-                action(cell2, Directions.Up);
-                action(cell1, Directions.Right);
-            }
-
-            if (IsIn1(cell1) && IsIn6(cell2)) {
-                action(cell1, Directions.Down);
-                action(cell2, Directions.Up);
-            } else if (IsIn1(cell2) && IsIn6(cell1)) {
-                action(cell2, Directions.Down);
-                action(cell1, Directions.Up);
-            }
-
-            if (IsIn2(cell1) && IsIn6(cell2)) {
-                action(cell1, Directions.Down);
-                action(cell2, Directions.Right);
-            } else if (IsIn2(cell2) && IsIn6(cell1)) {
-                action(cell2, Directions.Down);
-                action(cell1, Directions.Right);
-            }
-
-            if (IsIn3(cell1) && IsIn6(cell2)) {
-                action(cell1, Directions.Down);
-                action(cell2, Directions.Down);
-            } else if (IsIn3(cell1) && IsIn6(cell2)) {
-                action(cell1, Directions.Down);
-                action(cell2, Directions.Down);
-            }
-
-            if (IsIn4(cell1) && IsIn6(cell2)) {
-                action(cell1, Directions.Down);
-                action(cell2, Directions.Left);
-            } else if (IsIn4(cell2) && IsIn6(cell1)) {
-                action(cell2, Directions.Down);
-                action(cell1, Directions.Left);
-            }
-        }
-
-        private bool IsSame(Cell cell1, Cell cell2) {
-            return
-                IsIn1(cell1) && IsIn1(cell2) ||
-                IsIn2(cell1) && IsIn2(cell2) ||
-                IsIn3(cell1) && IsIn3(cell2) ||
-                IsIn4(cell1) && IsIn4(cell2) ||
-                IsIn5(cell1) && IsIn5(cell2) ||
-                IsIn6(cell1) && IsIn6(cell2);
         }
 
         private bool IsIn1(Cell cell) {
@@ -316,16 +288,6 @@ namespace MazeCube.Scripts.MazeGen.Grid {
 
         private bool IsIn6(Cell cell) {
             return cell.X >= Height / 2 && cell.Y >= 2 * Width / 3;
-        }
-
-        private bool IsFirstRow(Cell cell) {
-            return cell.X < Height / 2;
-        }
-
-        private bool IsInside(Cell cell) {
-            return cell.X != 0 && cell.X != Height / 2 - 1 && cell.X != Height / 2 && cell.X != Height - 1 &&
-                   cell.Y != 0 && cell.Y != Width / 3 - 1 && cell.Y != Width / 3 && cell.Y != 2 * Width / 3 - 1 &&
-                   cell.Y != 2 * Width / 3 && cell.Y != Width - 1;
         }
     }
 }
